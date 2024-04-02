@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -23,15 +22,21 @@ public class ChatRoomController {
     }
 
     @GetMapping("/rooms")
+
     @ResponseBody
     public List<ChatRoom> room() {
         return chatRoomRepository.findAllRoom();
     }
 
-    @PostMapping("/room")
-    @ResponseBody
-    public ChatRoom createRoom(@RequestParam String name) {
-        return chatRoomRepository.createChatRoom(name);
+    // 게시글 작성자와 채팅을 원하는 사람 간의 1:1 채팅방 생성 요청
+    @PostMapping("/room/create")
+    public ChatRoom createRoom(@RequestBody ChatRoom chatroom) {
+        // 채팅방 생성에 필요한 정보를 받아와 채팅방 생성
+        System.out.println("createRoom 들어옴");
+        System.out.println(chatroom.getName()+chatroom.getSender()+chatroom.getTitle());
+        chatRoomRepository.createChatRoom(chatroom);
+        System.out.println("확인:"+chatroom.getName());
+        return chatroom;
     }
 
     @GetMapping("/room/enter/{roomId}")
@@ -45,4 +50,6 @@ public class ChatRoomController {
     public ChatRoom roomInfo(@PathVariable String roomId) {
         return chatRoomRepository.findRoomById(roomId);
     }
+
+
 }

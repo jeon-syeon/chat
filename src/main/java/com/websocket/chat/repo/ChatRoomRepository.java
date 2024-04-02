@@ -2,6 +2,9 @@ package com.websocket.chat.repo;
 
 import com.websocket.chat.model.ChatRoom;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -28,9 +31,10 @@ public class ChatRoomRepository {
         return chatRoomMap.get(id);
     }
 
-    public ChatRoom createChatRoom(String name) {
-        ChatRoom chatRoom = ChatRoom.create(name);
-        chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
-        return chatRoom;
+    public void createChatRoom(ChatRoom chatroom) {
+        String roomName = chatroom.getTitle()+ " : " + chatroom.getSender() + "와(과) " + chatroom.getRecipient() + "의 채팅";
+        chatRoomMap.put(chatroom.getRoomId(), chatroom);
     }
+
+
 }
