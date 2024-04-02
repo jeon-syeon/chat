@@ -3,6 +3,7 @@ package com.websocket.chat.controller;
 import com.websocket.chat.model.ChatRoom;
 import com.websocket.chat.repo.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +31,12 @@ public class ChatRoomController {
 
     // 게시글 작성자와 채팅을 원하는 사람 간의 1:1 채팅방 생성 요청
     @PostMapping("/room/create")
-    public ChatRoom createRoom(@RequestBody ChatRoom chatroom) {
-        // 채팅방 생성에 필요한 정보를 받아와 채팅방 생성
-        System.out.println("createRoom 들어옴");
-        System.out.println(chatroom.getName()+chatroom.getSender()+chatroom.getTitle());
-        chatRoomRepository.createChatRoom(chatroom);
-        System.out.println("확인:"+chatroom.getName());
-        return chatroom;
+    public ResponseEntity<?> createChatRoom(@RequestBody ChatRoom chatRoom) {
+        // 채팅방 생성 로직
+        chatRoomRepository.createChatRoom(chatRoom);
+
+        // 채팅방 생성 후 생성된 채팅방 정보를 클라이언트에 반환
+        return ResponseEntity.ok(chatRoom);
     }
 
     @GetMapping("/room/enter/{roomId}")
