@@ -57,6 +57,20 @@
             </div>
         </div>
 
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h3>내 채팅방 목록</h3>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-action" v-for="chatRoom in myChatRooms" :key="chatRoom.roomId">
+                        <strong>{{ chatRoom.title }}</strong>
+                        <p>{{ chatRoom.description }}</p>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
     </div>
 
 </div>
@@ -72,10 +86,12 @@
             usernameEntered: false,
             postTitle: '',
             postContent: '',
-            posts: []
+            posts: [],
+            myChatRooms: []
         },
         created: function() {
             this.findAllPosts();
+            this.loadMyChatrooms();
         },
         methods: {
             submitUsername: function() {
@@ -96,12 +112,25 @@
                         console.error('게시글을 불러오는 데 실패했습니다.', error);
                     });
             },
+
+            loadMyChatrooms: function (userinfo){
+                axios.get('/api/my_chatrooms'
+                )
+                    .then(response =>{
+                        this.myChatRooms = response.data;
+                    })
+                    .catch(error =>{
+                        console.error('채팅방을 불러오는 데 실패했습니다',error);
+                    })
+            },
+
             createPost: function() {
                 if (this.postTitle.trim() === '' || this.postContent.trim() === '') {
                     alert('게시글 제목과 내용을 입력해 주세요.');
                     return;
                 }
-                axios.post('/api/posts', { title: this.postTitle, content: this.postContent, author: this.username })
+                axios.post('/api/posts',
+                    { title: this.postTitle, content: this.postContent, author: this.username })
                     .then(response => {
                         alert('게시글이 생성되었습니다.');
                         this.postTitle = '';
@@ -129,11 +158,13 @@
                         localStorage.setItem('wschat.sender', this.username);
                         // 채팅방으로 이동
                         location.href = '/chat/room/enter/' + roomId;
+                        this.loadMyChatrooms();
                     })
                     .catch(error => {
                         alert('채팅방 생성에 실패하였습니다.');
                     });
             }
+
 
         }
     });

@@ -23,7 +23,6 @@ public class ChatRoomController {
     }
 
     @GetMapping("/rooms")
-
     @ResponseBody
     public List<ChatRoom> room() {
         return chatRoomRepository.findAllRoom();
@@ -34,7 +33,6 @@ public class ChatRoomController {
     public ResponseEntity<?> createChatRoom(@RequestBody ChatRoom chatRoom) {
         // 채팅방 생성 로직
         chatRoomRepository.createChatRoom(chatRoom);
-
         // 채팅방 생성 후 생성된 채팅방 정보를 클라이언트에 반환
         return ResponseEntity.ok(chatRoom);
     }
@@ -50,6 +48,7 @@ public class ChatRoomController {
     public ChatRoom roomInfo(@PathVariable String roomId) {
         return chatRoomRepository.findRoomById(roomId);
     }
+
 
 
 }

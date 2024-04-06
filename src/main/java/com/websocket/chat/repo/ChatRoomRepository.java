@@ -36,5 +36,16 @@ public class ChatRoomRepository {
         chatRoomMap.put(chatroom.getRoomId(), chatroom);
     }
 
+    public List<ChatRoom> findChatRoomsByUser(String username) {
+        List<ChatRoom> userChatRooms = new ArrayList<>();
+        for (ChatRoom chatRoom : chatRoomMap.values()) {
+            // 채팅방의 sender 또는 recipient가 주어진 username과 일치하는 경우 해당 채팅방을 사용자의 채팅방 목록에 추가합니다.
+            if (chatRoom.getSender().equals(username) || chatRoom.getRecipient().equals(username)) {
+                userChatRooms.add(chatRoom);
+            }
+        }
+        return userChatRooms;
+    }
+
 
 }
