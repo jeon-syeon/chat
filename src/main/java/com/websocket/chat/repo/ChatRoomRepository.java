@@ -33,6 +33,7 @@ public class ChatRoomRepository {
 
     public void createChatRoom(ChatRoom chatroom) {
         String roomName = chatroom.getTitle()+ " : " + chatroom.getSender() + "와(과) " + chatroom.getRecipient() + "의 채팅";
+        chatroom.setRoomId(UUID.randomUUID().toString());
         chatRoomMap.put(chatroom.getRoomId(), chatroom);
     }
 
