@@ -36,15 +36,18 @@ public class ChatRoomRepository {
         chatRoomMap.put(chatroom.getRoomId(), chatroom);
     }
 
-    public List<ChatRoom> findChatRoomsByUser(String username) {
-        List<ChatRoom> userChatRooms = new ArrayList<>();
+    public List<ChatRoom> findmyroom(String username) {
+        List<ChatRoom> myChatRooms = new ArrayList<>();
+        // 채팅방 생성순서 최근 순으로 반환
         for (ChatRoom chatRoom : chatRoomMap.values()) {
-            // 채팅방의 sender 또는 recipient가 주어진 username과 일치하는 경우 해당 채팅방을 사용자의 채팅방 목록에 추가합니다.
             if (chatRoom.getSender().equals(username) || chatRoom.getRecipient().equals(username)) {
-                userChatRooms.add(chatRoom);
+                myChatRooms.add(chatRoom);
+                System.out.println(chatRoom.getTitle());
             }
         }
-        return userChatRooms;
+        System.out.println("aaaaa");
+        Collections.reverse(myChatRooms);
+        return myChatRooms;
     }
 
 

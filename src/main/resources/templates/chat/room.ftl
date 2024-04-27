@@ -82,7 +82,7 @@
     var vm = new Vue({
         el: '#app',
         data: {
-            username: '',
+            username: localStorage.getItem('username') || '', // 로컬 스토리지에서 사용자 이름 가져오기
             usernameEntered: false,
             postTitle: '',
             postContent: '',
@@ -114,8 +114,11 @@
             },
 
             loadMyChatrooms: function (userinfo){
-                axios.get('/api/my_chatrooms'
-                )
+                axios.get('/api/my_chatrooms',{
+                    params: {
+                        username: this.username
+                    }
+                    })
                     .then(response =>{
                         this.myChatRooms = response.data;
                     })
@@ -136,6 +139,7 @@
                         this.postTitle = '';
                         this.postContent = '';
                         this.findAllPosts();
+                        this.loadMyChatrooms();
                     })
                     .catch(error => {
                         alert('게시글 생성에 실패하였습니다.');
@@ -158,7 +162,7 @@
                         localStorage.setItem('wschat.sender', this.username);
                         // 채팅방으로 이동
                         location.href = '/chat/room/enter/' + roomId;
-                        this.loadMyChatrooms();
+
                     })
                     .catch(error => {
                         alert('채팅방 생성에 실패하였습니다.');
