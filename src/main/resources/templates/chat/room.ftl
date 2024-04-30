@@ -63,7 +63,8 @@
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-action" v-for="chatRoom in myChatRooms" :key="chatRoom.roomId">
                         <strong>{{ chatRoom.title }}</strong>
-                        <p>{{ chatRoom.description }}</p>
+                        <p>참가자: {{ chatRoom.sender }} 와(과) {{ chatRoom.recipient }}</p> <!-- 참가자 이름 -->
+                        <button class="btn btn-secondary" @click="loadChatroom(chatRoom.roomId)">채팅하기</button>
 
                     </li>
                 </ul>
@@ -115,6 +116,7 @@
 
             loadMyChatrooms: function (userinfo){
                 axios.get('/api/my_chatrooms',{
+
                     params: {
                         username: this.username
                     }
@@ -125,6 +127,10 @@
                     .catch(error =>{
                         console.error('채팅방을 불러오는 데 실패했습니다',error);
                     })
+            },
+
+            loadChatroom: function (roomId){
+                location.href = '/chat/room/enter/' + roomId;
             },
 
             createPost: function() {

@@ -37,7 +37,7 @@ public class ChatRoomRepository {
         chatRoomMap.put(chatroom.getRoomId(), chatroom);
     }
 
-    public List<ChatRoom> findmyroom(String username) {
+    public List<ChatRoom> findmyroom(String username){
         List<ChatRoom> myChatRooms = new ArrayList<>();
         // 채팅방 생성순서 최근 순으로 반환
         for (ChatRoom chatRoom : chatRoomMap.values()) {
@@ -46,10 +46,8 @@ public class ChatRoomRepository {
                 System.out.println(chatRoom.getTitle());
             }
         }
-        System.out.println("aaaaa");
         Collections.reverse(myChatRooms);
         return myChatRooms;
     }
+    }
 
-
-}
